@@ -45,7 +45,8 @@ func main() {
 	// Insert another doc {"_id", "123"}
 	collection.InsertOne(context.Background(), bson.D{{"_id", "123"}})
 
-	cursor, _ := collection.Find(context.Background(), bson.D{{"_id", foundDoc.ID}})
+	cursor, _ := collection.Find(context.Background(), bson.D{{"_id",
+		bson.D{{"$in", bson.A{foundDoc.ID}}}}})
 	// We shall only find one doc which is {"_id", "/123/"}
 	var docs []Doc
 	cursor.All(context.Background(), &docs)
